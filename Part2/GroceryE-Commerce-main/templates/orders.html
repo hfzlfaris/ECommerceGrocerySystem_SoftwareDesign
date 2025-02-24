@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block nav_left %}
+<a href="{{ url_for('home') }}" class="nav-link">Home</a>
+<a href="{{ url_for('shop') }}" class="nav-link">Shop</a>
+<a href="{{ url_for('about_us') }}" class="nav-link">About Us</a>
+<a href="{{ url_for('orders') }}" class="nav-link">Orders</a> 
+{% endblock %}
+
+{% block content %}
+<h1>Your Orders</h1>
+
+{% if orders %}
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Order Date</th>
+            <th>Delivery Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td><a href="{{ url_for('track_order', order_id=order['order_ID']) }}">{{ order.order_ID }}</a></td>
+            <td>{{ order.product_Name }}</td>
+            <td>{{ order.product_Quantity }}</td>
+            <td>${{ order.total_Amount }}</td>
+            <td>{{ order.order_Status }}</td>
+            <td>{{ order.order_Date }}</td>
+            <td>{{ order.delivery_Date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<p>No orders found.</p>
+{% endif %}
+
+{% endblock %}

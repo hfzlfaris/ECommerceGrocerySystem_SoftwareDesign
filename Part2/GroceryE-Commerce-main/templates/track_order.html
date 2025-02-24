@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Track Order{% endblock %}
+
+{% block content %}
+<h2>Tracking Order: <span id="order-id">{{ order_id }}</span></h2>
+
+<div class="order-tracking">
+    <!-- Order Placed Step -->
+    <div class="tracking-step {% if order_status in ['Pending', 'In Transit', 'Complete'] %}active{% endif %}">
+        <div class="step-text">Order Placed</div>
+        <div class="icon-box">
+            <span class="icon">🛒</span>
+        </div>
+    </div>
+
+    <div class="arrow">
+        <svg width="60" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10H58M40 2L58 10L40 18" stroke="gray" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- In Transit Step -->
+    <div class="tracking-step {% if order_status in ['In Transit', 'Complete'] %}active{% endif %}">
+        <div class="step-text">In Transit</div>
+        <div class="icon-box">
+            <span class="icon">🚚</span>
+        </div>
+    </div>
+
+    <div class="arrow">
+        <svg width="60" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10H58M40 2L58 10L40 18" stroke="gray" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- Completed Step -->
+    <div class="tracking-step {% if order_status == 'Complete' %}active{% endif %}">
+        <div class="step-text">Completed</div>
+        <div class="icon-box">
+            <span class="icon">✅</span>
+        </div>
+    </div>
+</div>
+
+<a href="{{ url_for('orders') }}" class="btn-link">
+    <button class="btn">Back to Orders</button>
+</a>
+
+{% endblock %}

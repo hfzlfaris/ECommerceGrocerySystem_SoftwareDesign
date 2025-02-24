@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+{% endblock %}
+
+{% block nav_left %}
+<a href="{{ url_for('home') }}" class="nav-link">Home</a>
+<a href="{{ url_for('shop') }}" class="nav-link">Shop</a>
+<a href="{{ url_for('about_us') }}" class="nav-link">About Us</a>
+<a href="{{ url_for('orders') }}" class="nav-link">Orders</a> 
+{% endblock %}
+
+{% block content %}
+<h1>Shopping Cart</h1>
+<div class="shopping-cart">
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Delete Item</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr class="cart-item">
+                <td><img src="{{ item.product_image_url }}" alt="{{ item.product_name }}" class="product-img"></td>
+                <td>{{ item.product_name }}</td>
+                <td>RM {{ "%.2f"|format(item.product_price) }}</td>
+                <td>
+                    <form action="{{ url_for('update_cart') }}" method="POST" style="display: inline;">
+                        <input type="hidden" name="product_id" value="{{ item.product_ID }}">
+                        <button type="submit" name="action" value="decrease" class="quantity-btn">-</button>
+                    </form>
+                    <span class="quantity-display">{{ item.quantity }}</span>
+                    <form action="{{ url_for('update_cart') }}" method="POST" style="display: inline;">
+                        <input type="hidden" name="product_id" value="{{ item.product_ID }}">
+                        <button type="submit" name="action" value="increase" class="quantity-btn">+</button>
+                    </form>
+                </td>
+                <td>RM {{ "%.2f"|format(item.product_price * item.quantity) }}</td>
+                <td>
+                    <form action="{{ url_for('remove_from_cart', product_id=item.product_ID) }}" method="POST">
+                        <button type="submit" class="remove-btn">Remove</button>
+                    </form>                                      
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="total-label">Total:</td>
+                <td class="total-value">RM {{ "%.2f"|format(cart_total) }}</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="cart-actions" style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('shop') }}" class="cart-continue-shopping"><span class="arrow">&#8592;</span> Continue Shopping</a>
+        {% if total_items > 0 %}
+            <a href="{{ url_for('checkout') }}" class="cart-checkout">Proceed to Checkout</a>
+        {% else %}
+            <div class="empty-cart" style="margin-top: 20px;">
+                <button class="cart-checkout" disabled style="margin-bottom: 10px;">No items in cart</button>
+                <p class="empty-cart-message" style="color: #666; font-size: 1em;">Add items to your cart before proceeding to payment.</p>
+            </div>
+        {% endif %}
+    </div>    
+</div>
+{% endblock %}

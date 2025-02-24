@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Receipt{% endblock %}
+
+{% block nav_left %}
+    <a href="{{ url_for('home') }}" class="nav-link shop-link">Home</a>
+    <a href="{{ url_for('shop') }}" class="nav-link">Shop</a>
+    <a href="{{ url_for('about_us') }}" class="nav-link">About Us</a>
+    <a href="{{ url_for('orders') }}" class="nav-link">Orders</a> 
+{% endblock %}
+
+{% block content %}
+<div class="receipt-container">
+    <h1 class="receipt-title">Receipt</h1>
+    <div class="receipt-details">
+        <h2>Order Summary</h2>
+        <p><strong>Receipt ID:</strong> {{ receipt_data['receipt_ID'] }}</p>
+        <p><strong>Order ID:</strong> {{ receipt_data['order_ID'] }}</p>
+        <p><strong>Order Date:</strong> {{ receipt_data['order_Date'] }}</p>
+        
+        <h2>Shipping Information</h2>
+        <p><strong>Address:</strong></p>
+        <p>{{ details_data['address_line1'] }}</p>
+        {% if details_data['address_line2'] %}
+        <p>{{ details_data['address_line2'] }}</p>
+        {% endif %}
+        <p>{{ details_data['city'] }}, {{ details_data['state'] }}</p>
+        <p>{{ details_data['postcode'] }}, {{ details_data['country'] }}</p>
+        
+        <h2>Payment Information</h2>
+        <p><strong>Card Used:</strong> xxxx-xxxx-xxxx-{{ details_data['card_number'][-4:] }}</p>
+
+        <h2>Products</h2>
+        <table class="receipt-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, price, quantity in zip(receipt_data['product_Name'], receipt_data['product_Price'], receipt_data['product_Quantity']) %}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td>RM {{ "%.2f"|format(price) }}</td>
+                    <td>{{ quantity }}</td>
+                    <td>RM {{ "%.2f"|format(price * quantity) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Total</h2>
+        <p><strong>Subtotal:</strong> RM {{ "%.2f"|format(receipt_data['total_Amount']) }}</p>
+        <p><strong>Discounted Price:</strong> RM {{ "%.2f"|format(receipt_data['discounted_Price']) }}</p>
+    </div>
+</div>
+{% endblock %}

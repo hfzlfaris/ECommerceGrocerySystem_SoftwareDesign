@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Shop - Alpha Mart{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css') }}">
+{% endblock %}
+
+{% block nav_left %}
+<a href="{{ url_for('home') }}" class="nav-link">Home</a>
+<a href="{{ url_for('shop') }}" class="nav-link shop-link">Shop</a>
+<a href="{{ url_for('about_us') }}" class="nav-link">About Us</a>
+<a href="{{ url_for('orders') }}" class="nav-link">Orders</a> 
+{% endblock %}
+
+{% block content %}
+<div class="shop-container">
+    <aside class="category-sidebar">
+        <h2 class="category-title">Category</h2>
+        <div class="category-list">
+            {% set categories = ["allproducts", "freshproduce", "vegetables", "beverages", "chilled&frozen", "snacks&sweets", "morecategoryname"] %}
+            {% for category in categories %}
+            <label class="category-item">
+                <input type="checkbox" data-category="{{ category }}"> {{ category.replace("&", " & ").title() }}
+            </label>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <section class="products-grid">
+        {% for product in products %}
+        <div class="product-card" data-category="{{ product.category }}">
+            <img class="product-image"
+                src="{{ url_for('static', filename='images/product_images/' + product.product_ID + '.png') }}"
+                alt="{{ product.product_Name }}"
+                onerror="this.onerror=null; this.style.display='none';">
+
+            <h3 class="product-title">{{ product.product_Name }}</h3>
+
+            {% if product.product_Discount > 0 %}
+            <div class="price-container">
+                <p class="original-price">RM {{ "%.2f"|format(product.product_Price) }}</p>
+                <p class="discounted-price">RM {{ "%.2f"|format(product.product_Price - product.calculate_discount()) }}</p>
+                <span class="discount-badge">-{{ product.product_Discount }}%</span>
+            </div>
+            {% else %}
+            <p class="price">RM {{ "%.2f"|format(product.product_Price) }}</p>
+            {% endif %}
+
+            <div class="product-rating">
+                <div class="stars" style="--rating: {{ product.product_Rating }};">★★★★★</div>
+                <span class="rating-value">{{ "%.1f"|format(product.product_Rating) }}</span>
+            </div>
+
+            {% if product.stock_Availability > 0 %}
+            <button class="add-to-cart-btn" data-product-id="{{ product.product_ID }}" style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); transition: 0.3s;">
+                Add to Cart
+            </button>
+            {% else %}
+            <button class="out-of-stock" disabled style="background-color: #d9534f; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: not-allowed; border-radius: 12px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); transition: 0.3s;">
+                Out of Stock
+            </button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Category filtering
+    const categoryCheckboxes = document.querySelectorAll('.category-item input[type="checkbox"]');
+    const products = document.querySelectorAll('.product-card');
+
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const selectedCategories = Array.from(categoryCheckboxes)
+                .filter(c => c.checked)
+                .map(c => c.getAttribute('data-category'));
+
+            products.forEach(product => {
+                const productCategory = product.getAttribute('data-category');
+                product.style.display =
+                    selectedCategories.includes("allproducts") || selectedCategories.includes(productCategory)
+                        ? 'block'
+                        : 'none';
+            });
+        });
+    });
+
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const productId = button.getAttribute('data-product-id');
+            fetch(`/add_to_cart/${productId}/`, { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/cart/';
+                    } else {
+                        alert('Failed to add the product to the cart. Please try again.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+});
+</script>
+{% endblock %}

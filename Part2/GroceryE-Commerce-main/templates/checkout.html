@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/checkout.css') }}">
+{% endblock %}
+
+{% block nav_left %}
+<a href="{{ url_for('home') }}" class="nav-link">Home</a>
+<a href="{{ url_for('shop') }}" class="nav-link">Shop</a>
+<a href="{{ url_for('about_us') }}" class="nav-link">About Us</a>
+<a href="{{ url_for('orders') }}" class="nav-link">Orders</a> 
+{% endblock %}
+
+{% block content %}
+<h1>Checkout</h1>
+<div class="checkout-page">
+    <div class="checkout-form">
+        <h2>Address & Payment Details</h2>
+
+        <form action="{{ url_for('process_payment') }}" method="POST">
+            <!-- Address Section -->
+            <fieldset>
+                <legend>Shipping Address</legend>
+                <label for="address-line1">Address Line 1:</label>
+                <input type="text" id="address-line1" name="address_line1" required>
+
+                <label for="address-line2">Address Line 2 (optional):</label>
+                <input type="text" id="address-line2" name="address_line2">
+
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required>
+
+                <label for="postcode">Postcode:</label>
+                <input type="text" id="postcode" name="postcode" required>
+
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" required>
+            </fieldset>
+
+            <!-- Payment Section -->
+            <fieldset>
+                <legend>Payment Details</legend>
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="card_number" maxlength="16" pattern="\d{16}" title="Enter a valid 16-digit card number" required>
+
+                <label for="expiry-date">Expiry Date:</label>
+                <input type="text" id="expiry-date" maxlength="5" name="expiry_date" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/\d{2}" title="Enter expiry date in MM/YY format (e.g., 05/25)" required>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" maxlength="3" pattern="\d{3}" title="Enter a valid 3-digit CVV" required>
+
+            </fieldset>
+            <button type="submit" class="checkout-button">Confirm Payment</button>
+        </form>
+    </div>
+
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        <ul class="order-items">
+            {% for item in cart_items %}
+            <li class="order-item">
+                <span class="item-name">{{ item.product_name }}</span>
+                <span class="item-quantity">x{{ item.quantity }}</span>
+                <span class="item-price">RM {{ "%.2f"|format(item.product_price * item.quantity) }}</span>
+            </li>
+            {% endfor %}
+        </ul>        
+        <div class="order-total">
+            <p>Subtotal: RM {{ "%.2f"|format(cart_subtotal) }}</p>
+            <p>Shipping: RM {{ "%.2f"|format(shipping_cost) }}</p>
+            <p><strong>Total: RM {{ "%.2f"|format(cart_total) }}</strong></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

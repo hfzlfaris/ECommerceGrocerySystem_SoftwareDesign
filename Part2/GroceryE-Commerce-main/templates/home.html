@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block nav_left %}
+<a href="{{ url_for('home') }}" class="nav-link shop-link">Home</a>
+<a href="{{ url_for('shop') }}" class="nav-link">Shop</a>
+<a href="{{ url_for('about_us') }}" class="nav-link">About Us</a>
+<a href="{{ url_for('orders') }}" class="nav-link">Orders</a>  <!-- New Orders Link -->
+{% endblock %}
+
+{% block content %}
+<!-- Notification Modal -->
+<div id="notificationModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn" id="closeNotification">&times;</span>
+        <p id="notificationMessage">{{ g.notifications[0] if g.notifications else '' }}</p>
+    </div>
+</div>
+
+<div class="home-background">
+    <img src="{{ url_for('static', filename='/images/market-stall.jpeg') }}">
+</div>
+
+<div class="home-container"> 
+    <div class="btn-container">
+        <a class="btn-content" href="{{ url_for('shop') }}">
+            <span class="btn-title">START SHOPPING</span>
+            <span class="icon-arrow">
+                <!-- SVG Arrow -->
+            </span> 
+        </a>
+    </div>
+</div> 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("notificationModal");
+        const closeBtn = document.getElementById("closeNotification");
+        const notificationMessage = document.getElementById("notificationMessage");
+
+        if (notificationMessage.textContent.trim() !== "") {
+            modal.style.display = "block"; // Show the modal
+        }
+
+        closeBtn.addEventListener("click", function () {
+            modal.style.display = "none"; // Close the modal
+        });
+
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none"; // Close modal if clicked outside
+            }
+        });
+    });
+</script>
+{% endblock %}

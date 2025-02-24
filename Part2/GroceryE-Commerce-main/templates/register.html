@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+
+<body>
+    <div class="image"> <!-- background image for the register page -->
+        <img src="{{ url_for('static', filename='images/register_background_image.jpg') }}">
+    </div> 
+
+    <div class = "register-container"> <!-- container for the register form -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo"> <!-- logo for the register page -->
+        
+        <div class = "register-form"> 
+                <h1> Register </h1> 
+                <p class="subtitle"> Create account using with email and password.</p>
+                <form action="{{ url_for('register') }}" method="POST">
+
+                    <div class="form-group">
+                        <label for="full_name">Full Name</label>
+                        <input type="fullname" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer_id">Customer ID</label>
+                        <input type="customerid" id="customer_id" name="customer_id" placeholder="Create your customer ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="phone_no">Phone Number</label>
+                        <input type="text" id="phone_no" name="phone_no" placeholder="1234567890" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="min. 8 characters" required>
+                    </div>
+                
+                    <!-- Customer-specific fields -->
+                    <div id="customer-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="full_name">Full Name</label>
+                            <input type="text" id="full_name" name="full_name" placeholder="Your Full Name">
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="customer_id">Customer ID</label>
+                            <input type="number" id="customer_id" name="customer_id" placeholder="1234">
+                        </div>
+                    </div>
+                
+                    <button type="submit">Register</button>
+                </form>
+                
+            </div>
+        </div>
+
+
+</body>
+</html>

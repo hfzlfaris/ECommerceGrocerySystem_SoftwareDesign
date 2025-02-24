@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Confirmation{% endblock %}
+
+{% block nav_left %}
+    <a href="{{ url_for('home') }}" class="nav-link shop-link">Home</a>
+    <a href="{{ url_for('shop') }}" class="nav-link">Shop</a>
+    <a href="{{ url_for('about_us') }}" class="nav-link">About Us</a>
+    <a href="{{ url_for('orders') }}" class="nav-link">Orders</a> 
+{% endblock %}
+
+{% block content %}
+    <div class="confirmation-page" style="text-align: center; margin-top: 50px;">
+        <img src="/static/images/tick.png" alt="Confirmation" class="confirmation-image" style="width: 150px; height: auto; margin-bottom: 20px; animation: pop 1s ease-in-out;">
+        <h1 style="font-size: 2em; margin-bottom: 20px;">Payment Successful!</h1>
+        <p style="font-size: 1.2em; margin-bottom: 30px;">Thank you for your purchase. Your order has been successfully processed.</p>
+        <a href="{{ url_for('shop') }}" class="button" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-size: 1em;">Continue Shopping</a>
+    </div>
+
+    <style>
+        @keyframes pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .confirmation-image {
+            animation: pop 1s ease-in-out;
+        }
+    </style>
+{% endblock %}
