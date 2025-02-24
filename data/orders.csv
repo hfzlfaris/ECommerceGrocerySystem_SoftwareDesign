@@ -1,7 +1,0 @@
-order_ID,customer_ID,order_Status,order_Date,product_Name,product_Price,product_Quantity,total_Amount,discounted_Price,delivery_Date
-OXFB3D,123@yahoo.com,Confirmed,2025-01-29 01:58:53,['Farm Fresh Milk (200ml)'],[13.95],[1],13.95,12.55,
-OXSRGD,123@yahoo.com,Pending,2025-01-29 01:59:56,"['Lactel Bliss Yogurt Drink (700g)', 'Broccoli (300-350g)', 'Farm Fresh Milk (200ml)']","[6.7, 6.9, 13.95]","[3, 1, 1]",40.95,36.86,
-O5C1FU,123@yahoo.com,In cart,2025-01-29 07:21:50,['Lactel Bliss Yogurt Drink (700g)'],[6.7],[2],13.4,12.06,
-OLD4M7,chewxieyang@gmail.com,Confirmed,2025-01-30 18:41:21,['Farm Fresh Milk (200ml)'],[13.95],[1],13.95,12.55,
-OT1HSE,chewxieyang@gmail.com,Confirmed,2025-01-30 18:51:32,['100 PLUS (1.5L)'],[2.88],[1],2.88,2.59,
-OGBN5G,chewxieyang@gmail.com,Confirmed,2025-01-30 21:20:21,"['Lactel Bliss Yogurt Drink (700g)', '100 PLUS (1.5L)']","[6.7, 2.88]","[1, 1]",9.58,8.62,
