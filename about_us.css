@@ -1,0 +1,29 @@
+.about-us-container {
+    background-image: url("../images/mainpage.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 50px;
+    color: white;
+    text-align: center;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-us-content {
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+}
+
+.about-us-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.about-us-content p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
